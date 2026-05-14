@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="registration.css">
+</head>
+<body>
+    <form action="" name="register" method="get" class="formtable">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Registration Form</h2>
+
+        <label for="first_name">First Name*</label>
+        <input type="text" name="first_name" id="first_name" required>
+
+        <label for="last_name">Last Name*</label>
+        <input type="text" name="last_name" id="last_name" required>
+
+        <label for="email">E-mail*</label>
+        <input type="email" name="email" id="email" required placeholder="test@example.com" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
+
+        <label for="password">Password*</label>
+        <input type="password" name="password" id="password" maxlength="20" minlength="12" required>
+
+        <label for="confirm_password">Confirm Password*</label>
+        <input type="password" name="confirm_password" id="confirm_password" required>
+        <div id="password-match" class="password-feedback"></div>
+
+        <label for="date_of_birth">Date of Birth*</label>
+        <input type="date" name="date_of_birth" id="date_of_birth" required>
+
+        <label>Gender</label>
+        <div class="gender-group">
+            <label><input type="radio" name="gender" value="m" checked> Male</label>
+            <label><input type="radio" name="gender" value="f"> Female</label>
+        </div>
+
+        <label for="profession">Choose Your Profession*</label>
+        <select name="profession" id="profession" required>
+            <option value="">-- Select --</option>
+            <option value="wd">Web Development</option>
+            <option value="da">Data Analytics</option>
+            <option value="uiux">UI/UX Design</option>
+        </select>
+
+        <label for="about_me">About Me</label>
+        <textarea name="about_me" id="about_me"></textarea>
+
+        <input type="submit" value="Register" class="submit">
+    </form>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+        const matchFeedback = document.getElementById('password-match');
+        const submitBtn = document.querySelector('input[type="submit"]');
+
+        function checkPasswordMatch() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            // 如果确认密码为空，清除提示
+            if (confirmPassword === '') {
+                matchFeedback.textContent = '';
+                matchFeedback.className = 'password-feedback';
+                submitBtn.disabled = false;
+                return;
+            }
+
+            // 检查密码是否匹配
+            if (password === confirmPassword) {
+                matchFeedback.textContent = '✓ Passwords match';
+                matchFeedback.className = 'password-feedback match';
+                submitBtn.disabled = false;
+            } else {
+                matchFeedback.textContent = '✗ Passwords do not match';
+                matchFeedback.className = 'password-feedback mismatch';
+                submitBtn.disabled = true;
+            }
+        }
+
+        // 监听密码输入框变化
+        passwordInput.addEventListener('input', checkPasswordMatch);
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+        // 提交前再验证一次
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                e.preventDefault();
+                matchFeedback.textContent = '✗ Passwords do not match, please check';
+                matchFeedback.className = 'password-feedback mismatch';
+            }
+        });
+    </script>
+</body>
+</html>
